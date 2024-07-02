@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,7 +8,166 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  walletAddress String     @id
+  Item          Item?
+  createdAt     DateTime   @default(now())
+  gladiator     Gladiator?
+}
+
+//Gladiator is the model that will be used for real players
+model Gladiator {
+  id                   Int                    @id @default(autoincrement())
+  character            Character              @relation(fields: [characterId], references: [id])
+  characterId          Int                    @unique
+  owner                User                   @relation(fields: [ownerWallet], references: [walletAddress])
+  ownerWallet          String                 @unique
+  MonsterGladiatorStat MonsterGladiatorStat[]
+
+  maxEnergy         Int      @default(100)
+  currentEnergy     Int      @default(100)
+  lastEnergyRefresh DateTime @default(now())
+  energyRefreshRate Int      @default(1) //1 energy per minute
+}
+
+//Character is the main model that will be used to play the game
+//Monsters & Bosses will be created using the same model
+model Character {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  //Is gladiator or monster
+  gladiator Gladiator?
+  Monster   Monster?
+
+  characterStat     CharacterStat[]
+  level             Int             @default(1)
+  currentHealth     Int
+  lastHealthRefresh DateTime        @default(now())
+  healthRefreshRate Int             @default(1) //1 health per minute
+
+  //Experience is used to get the level of the character
+  experience          Int @default(0)
+  availableStatPoints Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CharacterStat {
+  id          Int       @id @default(autoincrement())
+  statType    StatType
+  value       Int       @default(5)
+  characterId Int
+  character   Character @relation(fields: [characterId], references: [id])
+
+  updatedAt DateTime @updatedAt
+
+  //Below enforces that the combination of characterId and statType is unique
+  @@unique([characterId, statType])
+}
+
+model Item {
+  id          Int        @id @default(autoincrement())
+  name        String
+  itemType    ItemType
+  minLevel    Int        @default(1)
+  attributes  Json
+  stats       ItemStat[]
+  owner       User       @relation(fields: [ownerWallet], references: [walletAddress])
+  ownerWallet String     @unique
+
+  createdAt DateTime @default(now())
+}
+
+model ItemStat {
+  id       Int      @id @default(autoincrement())
+  statType StatType
+  value    Int
+  Item     Item?    @relation(fields: [itemId], references: [id])
+  itemId   Int?
+}
+
+model Monster {
+  id          Int       @id @default(autoincrement())
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId Int       @unique
+
+  //Difficulty per zone
+  difficulty Difficulty
+
+  MonsterGladiatorStat MonsterGladiatorStat[]
+  BattleZone           BattleZone?            @relation(fields: [battleZoneName], references: [name])
+  battleZoneName       String?
+
+  MonsterBonus MonsterBonus[]
+
+  createdAt DateTime @default(now())
+}
+
+model MonsterGladiatorStat {
+  id          Int       @id @default(autoincrement())
+  characterId Int
+  character   Monster   @relation(fields: [characterId], references: [id])
+  gladiatorId Int
+  gladiator   Gladiator @relation(fields: [gladiatorId], references: [id])
+
+  gladiatorWins Int @default(0)
+  gladiatorLoss Int @default(0)
+
+  updatedAt DateTime @updatedAt
+
+  @@unique([gladiatorId, characterId])
+}
+
+model MonsterBonus {
+  id        Int               @id @default(autoincrement())
+  bonusType MonsterBonusTypes
+  value     Int
+  monster   Monster?          @relation(fields: [monsterId], references: [id])
+  monsterId Int?
+
+  requiredWins Int
+}
+
+enum ItemType {
+  Weapon
+  Armor
+  Boots
+  Helmet
+  Shield
+  Gloves
+  Ring
+  Necklace
+}
+
+enum StatType {
+  STR
+  VIT
+  DEX
+  DEF
+  LCK
+}
+
+enum Difficulty {
+  Easy
+  Medium
+  Hard
+  Boss
+}
+
+enum MonsterBonusTypes {
+  IncreasedExperience
+  IncreasedGold
+  IncreasedItemDrop
+}
+
+model BattleZone {
+  name String @id
+
+  //Monsters belonging to the zone
+  monsters Monster[]
+
+  minLevel Int @default(1)
+
+  createdAt DateTime @default(now())
 }
