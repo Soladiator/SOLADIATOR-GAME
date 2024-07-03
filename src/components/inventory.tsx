@@ -32,14 +32,14 @@ const Inventory: React.FC<InventoryProps> = ({ items, onDrop }) => {
   }, [drop]);
 
   return (
-    <div ref={ref} className="grid grid-cols-3 gap-2 p-4 border border-gray-400">
-      <div className="col-span-3 text-center">Inventory</div>
+    <div ref={ref} className="grid grid-cols-3 gap-2 p-4 bg-black bg-opacity-50 border border-gray-400">
+      <div className="col-span-3 text-center text-white text-3xl">Inventory</div>
       {['helmet', 'weapon', 'armor', 'shield', 'pants', 'boots'].map((type) => (
         <div key={type} className="border border-gray-300 h-20 flex items-center justify-center">
           {items[type as keyof typeof items] ? (
             <Item item={items[type as keyof typeof items] as { id: number; name: string; itemType: string }} />
           ) : (
-            <span>{type}</span>
+            <span className='text-white shadow-lg uppercase'>{type}</span>
           )}
         </div>
       ))}
