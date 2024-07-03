@@ -1,4 +1,4 @@
-import {Item} from "@prisma/client";
+import { Item } from "@prisma/client";
 
 interface Weapon extends Item {
   readonly itemType: "Weapon";
