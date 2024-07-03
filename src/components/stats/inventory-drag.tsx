@@ -59,19 +59,28 @@ const InventoryDrag = () => {
 
   const handleDrop = (item: { id: number; name: string; itemType: string }, targetType: 'inventory' | 'stash') => {
     if (targetType === 'inventory') {
+      // Check if the slot is already occupied by an item of the same type
+      if (inventory[item.itemType as keyof typeof inventory]) {
+        console.log(`${item.itemType} slot is already occupied.`);
+        return; // Prevent the drop if the slot is occupied
+      }
       setStash((prevStash) => prevStash.filter((i) => i.id !== item.id));
       setInventory((prevInventory) => ({
         ...prevInventory,
         [item.itemType]: item,
       }));
     } else if (targetType === 'stash') {
-      setInventory((prevInventory) => ({
-        ...prevInventory,
-        [item.itemType]: null,
-      }));
-      setStash((prevStash) => [...prevStash, item]);
+      const selectedItem = inventory[item.itemType as keyof typeof inventory];
+      if (selectedItem) {
+        setStash((prevStash) => [...prevStash, selectedItem]);
+        setInventory((prevInventory) => ({
+          ...prevInventory,
+          [item.itemType]: null,
+        }));
+      }
     }
   };
+  
 
   const handleInventoryDrop = (item: { id: number; name: string; itemType: string }) => handleDrop(item, 'inventory');
   const handleStashDrop = (item: { id: number; name: string; itemType: string }) => handleDrop(item, 'stash');
