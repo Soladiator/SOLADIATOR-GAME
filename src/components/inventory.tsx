@@ -13,14 +13,16 @@ interface InventoryProps {
     pants: { id: number; name: string; itemType: string } | null;
     boots: { id: number; name: string; itemType: string } | null;
   };
-  onDrop: (item: { id: number; itemType: string }) => void;
+  onDrop: (item: { id: number; name: string; itemType: string }) => void;
 }
 
 const Inventory: React.FC<InventoryProps> = ({ items, onDrop }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [, drop] = useDrop({
     accept: ItemTypes.ITEM,
-    drop: (item: { id: number; itemType: string }) => onDrop(item),
+    drop: (item: { id: number; name: string; itemType: string }) => {
+      onDrop(item);
+    },
   });
 
   useEffect(() => {

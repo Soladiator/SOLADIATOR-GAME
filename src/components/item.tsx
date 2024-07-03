@@ -15,7 +15,7 @@ const Item: React.FC<ItemProps> = ({ item }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.ITEM,
-    item: { id: item.id, itemType: item.itemType },
+    item: { id: item.id, name: item.name, itemType: item.itemType },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
@@ -30,7 +30,7 @@ const Item: React.FC<ItemProps> = ({ item }) => {
   return (
     <div
       ref={ref}
-      className="h-full w-full flex items-center justify-center bg-gray-200"
+      className="h-full w-[10vw] flex items-center justify-center bg-gray-200"
       style={{ opacity: isDragging ? 0.5 : 1 }}
     >
       {item.name}
