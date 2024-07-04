@@ -21,6 +21,24 @@
   }
 }
 
+@font-face {
+  font-family: "akira-light";
+  src: url("/fonts/Kingthings-Petrock-light.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "akira";
+  src: url("/fonts/Kingthings-Petrock.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "akira-light", sans-serif;
+}
+
 .glass {
   background: var(--windows-glass);
   background-blend-mode: luminosity;
@@ -188,7 +206,7 @@ input[type="number"] {
   padding: 5px 10px;
   border-radius: 5px;
   position: relative;
-  font-size: 14px;
+  font-size: 17px;
 }
 
 .label-content::after {
