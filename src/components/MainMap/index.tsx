@@ -2,21 +2,18 @@
 
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import { useDraggable } from "react-use-draggable-scroll";
-import ImageMapper, {
-  CustomArea,
-  ImageMapperProps,
-  Map,
-} from "react-img-mapper";
+import ImageMapper, { CustomArea, Map } from "react-img-mapper";
 import MapBuildingModal from "../Modals/MapBuildingModals";
 import { URL, MAP, Area } from "@/constants/Map";
 import { LoadingBackdrop } from "@/components/Backdrops/LoadingBackdrop";
 import Image from "next/image";
+import BuildingLabels from "../BuildingLabels";
 
 const MainMap = () => {
   const [innerWidth, setInnerWidth] = useState<number>(0);
+  const [scale, setScale] = useState<number>(1);
   const [area, setArea] = useState<CustomArea | Area | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const parentRef =
     useRef<HTMLDivElement>() as MutableRefObject<HTMLInputElement>;
@@ -25,17 +22,24 @@ const MainMap = () => {
   });
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (window.innerWidth < 640) {
-        setInnerWidth(window.innerWidth * 3.848);
-        return;
-      } else if (window.innerWidth < 769) {
-        setInnerWidth(window.innerWidth * 1.8);
-        return;
+    const updateDimensions = () => {
+      if (typeof window !== "undefined") {
+        const width = window.innerWidth;
+        if (width < 640) {
+          setInnerWidth(width * 3.848);
+        } else if (width < 769) {
+          setInnerWidth(width * 1.8);
+        } else {
+          setInnerWidth(width * 1.3);
+        }
+        setScale(width / innerWidth);
       }
-      setInnerWidth(window.innerWidth * 1.3);
-    }
-  }, []);
+    };
+
+    updateDimensions();
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, [innerWidth]);
 
   useEffect(() => {
     if (parentRef.current) {
@@ -64,7 +68,12 @@ const MainMap = () => {
       {...events}
     >
       {isLoading && (
-        <div className={`relative w-[${innerWidth}px] h-[104vh]`}>
+        <div
+          className={`relative h-screen`}
+          style={{
+            width: `${innerWidth}px`,
+          }}
+        >
           <Image
             layout="fill"
             className="object-center object-cover pointer-events-none"
@@ -77,7 +86,12 @@ const MainMap = () => {
         </div>
       )}
 
-      <div className={`${isDragging ? "pointer-events-none" : ""}`}>
+      <div
+        className={`${!isLoading && "relative"}`}
+        style={{
+          width: `${innerWidth}px`,
+        }}
+      >
         <ImageMapper
           src={URL}
           map={MAP as unknown as Map}
@@ -92,6 +106,10 @@ const MainMap = () => {
           onMouseLeave={handleAreaMouseLeave}
           onLoad={() => setIsLoading(false)}
         />
+        {!isLoading &&
+          MAP.areas.map((area) => (
+            <BuildingLabels key={area.id} area={area} scale={scale} />
+          ))}
       </div>
 
       {area && (
