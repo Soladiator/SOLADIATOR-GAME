@@ -1,4 +1,4 @@
-import {Item, StatType} from "@prisma/client";
+import { Item, StatType } from "@prisma/client";
 
 export type ItemBonus = {
   type: StatType | "damage" | "damageReduction";
