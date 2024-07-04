@@ -9,7 +9,9 @@ datasource db {
 
 model User {
   walletAddress String     @id
-  Item          Item?
+  username      String?
+  avatarURL     String?
+  items         Item[]
   createdAt     DateTime   @default(now())
   gladiator     Gladiator?
 }
@@ -70,24 +72,21 @@ model CharacterStat {
 }
 
 model Item {
-  id          Int        @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
+  imgURL      String
   itemType    ItemType
-  minLevel    Int        @default(1)
+  minLevel    Int      @default(1)
+  //Attributes are stored as a JSON object in format of 
+  // Array<{
+  //  name: "damage" | "damageReduction" | StatType,
+  //  value: string  //For bonuses: "<BonusType>:<value>", For damage: "min-max", For "damageReduction": "value"
+  // }>
   attributes  Json
-  stats       ItemStat[]
-  owner       User       @relation(fields: [ownerWallet], references: [walletAddress])
-  ownerWallet String     @unique
+  owner       User     @relation(fields: [ownerWallet], references: [walletAddress])
+  ownerWallet String
 
   createdAt DateTime @default(now())
-}
-
-model ItemStat {
-  id       Int      @id @default(autoincrement())
-  statType StatType
-  value    Int
-  Item     Item?    @relation(fields: [itemId], references: [id])
-  itemId   Int?
 }
 
 model Monster {

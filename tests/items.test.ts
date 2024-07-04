@@ -1,5 +1,10 @@
 import {getWeapon} from "../src/helpers/items";
 import {Item, ItemType} from "@prisma/client";
+import {createItem, deleteItem} from "@/services/item.service";
+import {ItemCreateInput} from "@/types/items";
+import {deleteUser, getUserByWallet} from "@/services/user.service";
+import {use} from "react";
+import exp from "constants";
 
 describe("getWeapon", () => {
   it("Should return a weapon with computed attributes", () => {
@@ -54,5 +59,61 @@ describe("getWeapon", () => {
     expect(() => getWeapon(mockItem)).toThrowError(
       "Weapon is missing damage attribute",
     );
+  });
+});
+
+describe("createItem", () => {
+  const mockWalletAddres = "testWallet";
+  const mockItem = {
+    name: "Test Item",
+    itemType: ItemType.Weapon,
+    minLevel: 1,
+    ownerWallet: "testWallet",
+    attributes: [
+      {name: "damage", value: "10-12"},
+      {
+        name: "bonus",
+        value: "DEX:5",
+      },
+    ],
+  } as ItemCreateInput;
+
+  const testVariables: {
+    itemID?: number;
+    userWalletAddres?: string;
+  } = {
+    itemID: undefined,
+    userWalletAddres: undefined,
+  };
+
+  it("should create a user with the provided input", async () => {
+    const user = await getUserByWallet(mockWalletAddres);
+    testVariables.userWalletAddres = user.walletAddress;
+
+    expect(user.walletAddress).toEqual(mockWalletAddres);
+  });
+
+  it("should create an item with the provided input and delete afterwards", async () => {
+    const item = await createItem(mockItem);
+    testVariables.itemID = item.id;
+
+    //Add expect statement to compare item with mockItem
+    expect(item).toEqual(expect.objectContaining(mockItem));
+  });
+
+  it("should delete an item with the provided id", async () => {
+    expect(testVariables.itemID).toBeDefined();
+
+    const deletedItem = await deleteItem(testVariables.itemID!);
+
+    expect(deletedItem.id).toEqual(testVariables.itemID);
+  });
+
+  it("should delete user with the provided wallet address", async () => {
+    expect(testVariables.userWalletAddres).toBeDefined();
+
+    const deletedUser = await deleteUser(mockItem.ownerWallet);
+
+    expect(deletedUser.walletAddress).toEqual(testVariables.userWalletAddres);
   });
 });
