@@ -89,5 +89,14 @@ export const MAP: MapType = {
         900, 319, 920, 327, 945, 314,
       ],
     },
+    {
+      id: 6,
+      title: "6",
+      shape: "poly",
+      name: "6",
+      fillColor: "rgba(0,0,0,0.2)",
+      strokeColor: "transparent",
+      coords: [1, 2, -1, 468, 562, 213, 739, 140, 979, 2, 360, 2],
+    },
   ],
 };
