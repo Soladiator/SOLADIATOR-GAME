@@ -1,4 +1,4 @@
-import {Item, StatType} from "@prisma/client";
+import {Item, ItemType, StatType} from "@prisma/client";
 
 export type ItemBonus = {
   type: StatType | "damage" | "damageReduction";
@@ -46,4 +46,23 @@ export interface Necklace extends ComputedItem {
 export interface ItemAttribute {
   name: "bonus" | "damage" | "damageReduction";
   value: string;
+}
+
+export type ItemTypes =
+  | Weapon
+  | Shield
+  | Armor
+  | Boots
+  | Helmet
+  | Gloves
+  | Ring
+  | Necklace;
+
+export interface ItemCreateInput {
+  name: string;
+  itemType: ItemType;
+  minLevel: number;
+  ownerWallet: string;
+  //Attributes are base values that are required for each item type.
+  attributes: Array<ItemAttribute>;
 }
