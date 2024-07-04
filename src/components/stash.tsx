@@ -1,19 +1,19 @@
 "use client"
 import React, { useRef, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
-import { ItemTypes } from '../types/itemtypes';
+import { ItemType, ItemTypes } from '../types/itemtypes';
 import Item from './item';
 
 interface StashProps {
-  items: { id: number; name: string; itemType: string }[];
-  onDrop: (item: { id: number; name: string; itemType: string }) => void;
+  items: ItemType[];
+  onDrop: (item: ItemType) => void;
 }
 
 const Stash: React.FC<StashProps> = ({ items, onDrop }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [, drop] = useDrop({
     accept: ItemTypes.ITEM,
-    drop: (item: { id: number; name: string; itemType: string }) => {
+    drop: (item: ItemType) => {
       onDrop(item);
     },
   });

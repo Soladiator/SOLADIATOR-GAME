@@ -1,3 +1,4 @@
+import MonstersModal from "@/components/Fight/monsters-modal";
 import InventoryDrag from "@/components/stats/inventory-drag";
 
 export const URL = "/images/main-map.webp";
@@ -108,7 +109,7 @@ export const MAP: MapType = {
     },
     {
       id: 7,
-      title: "7",
+      title: "Fight",
       shape: "poly",
       name: "7",
       fillColor: "rgba(0,0,0,0.2)",
@@ -125,6 +126,7 @@ export const MAP: MapType = {
         112, 428, 114, 440, 92, 450, 82, 443, 66, 448, 71, 460, 1, 491, -2, 455,
         1, 405, 1, 204, 1, 86, 1, 38,
       ],
+      content: <MonstersModal/>
     },
   ],
 };

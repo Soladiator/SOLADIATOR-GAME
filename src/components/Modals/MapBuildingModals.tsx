@@ -21,7 +21,7 @@ const MapBuildingModal = ({
     <Transition appear show={true} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-[15]"
+        className="relative w-full h-full z-[15]"
         onClose={() => {
           setArea(null);
         }}
@@ -43,8 +43,8 @@ const MapBuildingModal = ({
             <Image
               src="/icons/cross.svg"
               alt="round"
-              width={24}
-              height={24}
+              width={64}
+              height={64}
               className="absolute top-4 right-3 cursor-pointer"
               onClick={() => {
                 setArea(null);
