@@ -1,3 +1,5 @@
+import InventoryDrag from "@/components/stats/inventory-drag";
+
 export const URL = "/images/main-map.webp";
 
 export interface Area {
@@ -32,7 +34,7 @@ export const MAP: MapType = {
         957, 523, 937, 503, 930, 483, 930, 442, 932, 410, 955, 384, 985, 367,
         1020, 357, 1063, 352,
       ],
-      content: "Arena",
+      content: "arena"
     },
     {
       id: 2,
@@ -91,7 +93,7 @@ export const MAP: MapType = {
     },
     {
       id: 6,
-      title: "6",
+      title: "Stash",
       shape: "poly",
       name: "6",
       fillColor: "rgba(216, 152, 83, 0.35)",
@@ -102,6 +104,7 @@ export const MAP: MapType = {
         1227, 578, 1239, 588, 1242, 610, 1214, 595, 1184, 605, 1181, 643, 1307,
         701, 1330, 683, 1350, 698, 1375, 686,
       ],
+      content: <InventoryDrag/>
     },
     {
       id: 7,

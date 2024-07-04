@@ -30,7 +30,7 @@ const Item: React.FC<ItemProps> = ({ item }) => {
   return (
     <div
       ref={ref}
-      className="h-full w-[10vw] flex items-center justify-center bg-gray-200"
+      className="h-full w-[10vw] flex items-center justify-center bg-gray-950"
       style={{ opacity: isDragging ? 0.5 : 1 }}
     >
       {item.name}

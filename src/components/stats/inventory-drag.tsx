@@ -87,7 +87,7 @@ const InventoryDrag = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="gap-4 flex flex-col p-4">
+      <div className="gap-4 flex max-w-xl mx-auto flex-col p-4">
         <Inventory items={inventory} onDrop={handleInventoryDrop} />
         <Stash items={stash} onDrop={handleStashDrop} />
       </div>
