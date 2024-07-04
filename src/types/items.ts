@@ -1,35 +1,49 @@
-import {Item} from "@prisma/client";
+import {Item, StatType} from "@prisma/client";
 
-interface Weapon extends Item {
+export type ItemBonus = {
+  type: StatType | "damage" | "damageReduction";
+  value: number;
+};
+
+export interface ComputedItem extends Item {
+  bonuses: ItemBonus[];
+}
+
+export interface Weapon extends ComputedItem {
   readonly itemType: "Weapon";
   damageRange: [number, number] /* [LOW, HIGH] */;
 }
 
-interface Shield extends Item {
+export interface Shield extends ComputedItem {
   readonly itemType: "Shield";
   damageReduction: number /* Percentage */;
 }
 
-interface Boots extends Item {
-  readonly itemType: "Boots";
-}
-
-interface Helmet extends Item {
-  readonly itemType: "Helmet";
-}
-
-interface Armor extends Item {
+export interface Armor extends ComputedItem {
   readonly itemType: "Armor";
 }
 
-interface Gloves extends Item {
+export interface Boots extends ComputedItem {
+  readonly itemType: "Boots";
+}
+
+export interface Helmet extends ComputedItem {
+  readonly itemType: "Helmet";
+}
+
+export interface Gloves extends ComputedItem {
   readonly itemType: "Gloves";
 }
 
-interface Ring extends Item {
+export interface Ring extends ComputedItem {
   readonly itemType: "Ring";
 }
 
-interface Necklace extends Item {
+export interface Necklace extends ComputedItem {
   readonly itemType: "Necklace";
+}
+
+export interface ItemAttribute {
+  name: "bonus" | "damage" | "damageReduction";
+  value: string;
 }

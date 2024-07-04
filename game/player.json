@@ -1,0 +1,11 @@
+{
+  "name": "DragonSlayer",
+  "age": "43",
+  "gender": "male",
+  "str": "15",
+  "dex": "10",
+  "vit": "12",
+  "luc": "15",
+  "def": "22",
+  "health": "60"
+}
