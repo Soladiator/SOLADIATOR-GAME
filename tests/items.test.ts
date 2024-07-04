@@ -1,10 +1,9 @@
 import {getWeapon} from "../src/helpers/items";
-import {Item, ItemType} from "@prisma/client";
+import {Gender, Item, ItemType} from "@prisma/client";
 import {createItem, deleteItem} from "@/services/item.service";
 import {ItemCreateInput} from "@/types/items";
 import {deleteUser, getUserByWallet} from "@/services/user.service";
-import {use} from "react";
-import exp from "constants";
+import {createGladiator} from "@/services/gladiator.service";
 
 describe("getWeapon", () => {
   it("Should return a weapon with computed attributes", () => {
