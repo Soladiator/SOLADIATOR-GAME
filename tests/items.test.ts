@@ -19,6 +19,7 @@ describe("getWeapon", () => {
         {name: "damage", value: "10-20"},
         {name: "bonus", value: "damage:5"},
       ],
+      imgURL: null,
     };
 
     const result = getWeapon(mockItem);
@@ -40,6 +41,7 @@ describe("getWeapon", () => {
       ownerWallet: "testWallet",
       createdAt: new Date(),
       attributes: [],
+      imgURL: null,
     };
 
     expect(() => getWeapon(mockItem)).toThrowError("Item is not a Weapon");
@@ -54,6 +56,7 @@ describe("getWeapon", () => {
       ownerWallet: "testWallet",
       createdAt: new Date(),
       attributes: [],
+      imgURL: null,
     };
 
     expect(() => getWeapon(mockItem)).toThrowError(
