@@ -16,12 +16,15 @@ model User {
 
 //Gladiator is the model that will be used for real players
 model Gladiator {
-  id                   Int                    @id @default(autoincrement())
-  character            Character              @relation(fields: [characterId], references: [id])
-  characterId          Int                    @unique
-  owner                User                   @relation(fields: [ownerWallet], references: [walletAddress])
-  ownerWallet          String                 @unique
-  MonsterGladiatorStat MonsterGladiatorStat[]
+  id          Int       @id @default(autoincrement())
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId Int       @unique
+  owner       User      @relation(fields: [ownerWallet], references: [walletAddress])
+  ownerWallet String    @unique
+
+  gender Gender
+
+  monsterGladiatorStats MonsterGladiatorStat[]
 
   maxEnergy         Int      @default(100)
   currentEnergy     Int      @default(100)
@@ -95,9 +98,9 @@ model Monster {
   //Difficulty per zone
   difficulty Difficulty
 
-  MonsterGladiatorStat MonsterGladiatorStat[]
-  BattleZone           BattleZone?            @relation(fields: [battleZoneName], references: [name])
-  battleZoneName       String?
+  monsterGladiatorStats MonsterGladiatorStat[]
+  BattleZone            BattleZone             @relation(fields: [battleZoneName], references: [name])
+  battleZoneName        String
 
   MonsterBonus MonsterBonus[]
 
@@ -153,6 +156,11 @@ enum Difficulty {
   Medium
   Hard
   Boss
+}
+
+enum Gender {
+  Male
+  Female
 }
 
 enum MonsterBonusTypes {

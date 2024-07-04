@@ -1,0 +1,7 @@
+export const CONSTANTS = {};
+
+export const DEFAULTS = {
+  AVAILABLE_STAT_PER_LEVEL: 3,
+  MAX_ENERGY: 100,
+  ENERGY_REGEN_RATE: 1,
+};

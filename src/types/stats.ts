@@ -1,4 +1,5 @@
 import {StatType} from "@prisma/client";
+import exp from "constants";
 
 export interface CharacterStats {
   [StatType.STR]: number;
@@ -14,3 +15,20 @@ export interface CombatStats {
   dodgeOrCritChance: number;
   bonusLuckPercentage: number;
 }
+
+export interface CreateCharacterStatInput {
+  statType: StatType;
+  value: number;
+  characterId: number;
+}
+
+export interface CreateCharacterStatsInput {
+  stats: Array<{
+    statType: StatType;
+    value: number;
+  }>;
+  characterId: number;
+}
+
+export interface UpdateCharacterStatInput extends CreateCharacterStatInput {}
+export interface UpdateCharacterStatsInput extends CreateCharacterStatsInput {}
