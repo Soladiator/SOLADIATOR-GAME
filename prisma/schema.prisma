@@ -32,6 +32,8 @@ model Gladiator {
   currentEnergy     Int      @default(100)
   lastEnergyRefresh DateTime @default(now())
   energyRefreshRate Int      @default(1) //1 energy per minute
+
+  equippedItems EquippedItems?
 }
 
 //Character is the main model that will be used to play the game
@@ -87,6 +89,42 @@ model Item {
   ownerWallet String
 
   createdAt DateTime @default(now())
+
+  weaponEquippedBy   EquippedItems? @relation("Weapon")
+  armorEquippedBy    EquippedItems? @relation("Armor")
+  helmetEquippedBy   EquippedItems? @relation("Helmet")
+  shieldEquippedBy   EquippedItems? @relation("Shield")
+  bootsEquippedBy    EquippedItems? @relation("Boots")
+  glovesEquippedBy   EquippedItems? @relation("Gloves")
+  ring1EquippedBy    EquippedItems? @relation("Ring1")
+  ring2EquippedBy    EquippedItems? @relation("Ring2")
+  necklaceEquippedBy EquippedItems? @relation("Necklace")
+}
+
+model EquippedItems {
+  id          Int       @id @default(autoincrement())
+  gladiator   Gladiator @relation(fields: [gladiatorId], references: [id])
+  gladiatorId Int       @unique
+
+  weaponId   Int? @unique
+  armorId    Int? @unique
+  helmetId   Int? @unique
+  shieldId   Int? @unique
+  bootsId    Int? @unique
+  glovesId   Int? @unique
+  ring1Id    Int? @unique
+  ring2Id    Int? @unique
+  necklaceId Int? @unique
+
+  weapon   Item? @relation("Weapon", fields: [weaponId], references: [id])
+  armor    Item? @relation("Armor", fields: [armorId], references: [id])
+  helmet   Item? @relation("Helmet", fields: [helmetId], references: [id])
+  shield   Item? @relation("Shield", fields: [shieldId], references: [id])
+  boots    Item? @relation("Boots", fields: [bootsId], references: [id])
+  gloves   Item? @relation("Gloves", fields: [glovesId], references: [id])
+  ring1    Item? @relation("Ring1", fields: [ring1Id], references: [id])
+  ring2    Item? @relation("Ring2", fields: [ring2Id], references: [id])
+  necklace Item? @relation("Necklace", fields: [necklaceId], references: [id])
 }
 
 model Monster {
@@ -131,6 +169,17 @@ model MonsterBonus {
   requiredWins Int
 }
 
+model BattleZone {
+  name String @id
+
+  //Monsters belonging to the zone
+  monsters Monster[]
+
+  minLevel Int @default(1)
+
+  createdAt DateTime @default(now())
+}
+
 enum ItemType {
   Weapon
   Armor
@@ -166,15 +215,4 @@ enum MonsterBonusTypes {
   IncreasedExperience
   IncreasedGold
   IncreasedItemDrop
-}
-
-model BattleZone {
-  name String @id
-
-  //Monsters belonging to the zone
-  monsters Monster[]
-
-  minLevel Int @default(1)
-
-  createdAt DateTime @default(now())
 }
