@@ -2,7 +2,7 @@ import {getWeapon} from "../src/helpers/items";
 import {Item, ItemType} from "@prisma/client";
 
 describe("getWeapon", () => {
-  it("should return a weapon with computed attributes", () => {
+  it("Should return a weapon with computed attributes", () => {
     const mockItem: Item = {
       id: 1,
       name: "Test Weapon",
@@ -26,7 +26,7 @@ describe("getWeapon", () => {
     });
   });
 
-  it("should throw an error if item is not a weapon", () => {
+  it("Should throw an error if item is not a weapon", () => {
     const mockItem: Item = {
       id: 2,
       name: "Test Armor",
@@ -40,7 +40,7 @@ describe("getWeapon", () => {
     expect(() => getWeapon(mockItem)).toThrowError("Item is not a Weapon");
   });
 
-  it("should throw an error if weapon is missing damage attribute", () => {
+  it("Should throw an error if weapon is missing damage attribute", () => {
     const mockItem: Item = {
       id: 3,
       name: "Test Weapon",
