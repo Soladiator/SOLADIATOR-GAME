@@ -8,6 +8,7 @@ import {
 } from "@headlessui/react";
 import { Area } from "@/constants/Map";
 import Image from "next/image";
+import { DialogContent } from "@mui/material";
 
 const MapBuildingModal = ({
   selectedArea,
@@ -39,6 +40,16 @@ const MapBuildingModal = ({
 
         <div className="fixed inset-0 overflow-y-hidden">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <Image
+              src="/icons/cross.svg"
+              alt="round"
+              width={24}
+              height={24}
+              className="absolute top-4 right-3 cursor-pointer"
+              onClick={() => {
+                setArea(null);
+              }}
+            />
             <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
@@ -49,24 +60,11 @@ const MapBuildingModal = ({
               leaveTo="opacity-0 scale-95"
             >
               <DialogPanel className="w-full transform h-full transition-all">
-                <div className="px-5 py-3 rounded-[20px] relative">
+                <div className="px-5 py-3 rounded-[20px] relative text-white h-full">
                   <DialogTitle className="text-base font-bold py-2 leading-[21.6px] text-center text-primary mb-2">
-                    {selectedArea.content}
-                    <Image
-                      src="/icons/cross.svg"
-                      alt="round"
-                      width={24}
-                      height={24}
-                      className="absolute top-4 right-3 cursor-pointer"
-                      onClick={() => {
-                        setArea(null);
-                      }}
-                    />
+                    {selectedArea.title}
                   </DialogTitle>
-
-                  <div className={"overflow-y-scroll"}>
-                    {selectedArea.content}
-                  </div>
+                  <DialogContent>{selectedArea.content}</DialogContent>
                 </div>
               </DialogPanel>
             </TransitionChild>
