@@ -24,8 +24,6 @@ const MainMap = () => {
     applyRubberBandEffect: true,
   });
 
-  const mapRef = useRef<React.NamedExoticComponent<ImageMapperProps>>(null);
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (window.innerWidth < 640) {
@@ -35,7 +33,7 @@ const MainMap = () => {
         setInnerWidth(window.innerWidth * 1.8);
         return;
       }
-      setInnerWidth(window.innerWidth * 1.5);
+      setInnerWidth(window.innerWidth * 1.3);
     }
   }, []);
 
@@ -59,17 +57,9 @@ const MainMap = () => {
     document.body.style.cursor = "default";
   };
 
-  const handleMouseDown = () => {
-    setIsDragging(true);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
   return (
     <div
-      className="overflow-hidden no-scrollbar max-h-screen"
+      className="overflow-scroll no-scrollbar max-h-screen"
       ref={parentRef}
       {...events}
     >
