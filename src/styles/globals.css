@@ -163,3 +163,13 @@ input[type="number"] {
     transform: translate(0px, 10px);
   }
 }
+
+/* Map images non draggable */
+#img-mapper > img {
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
