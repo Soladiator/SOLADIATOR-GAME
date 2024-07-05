@@ -12,7 +12,7 @@ const WalletMultiButtonDynamic = dynamic(
 export default function WalletConnectButton() {
   return (
     <div
-      className={`px-10 border uppercase text-2xl text-akira font-bold py-2 rounded-md border-primary bg-light-orange text-white flex items-center justify-center cursor-pointer`}
+      className={`px-10 border uppercase text-2xl text-akira font-bold py-2 rounded-md border-primary bg-light-orange text-white flex items-center justify-center cursor-pointer z-50`}
     >
       <WalletMultiButtonDynamic className="wallet" />
     </div>

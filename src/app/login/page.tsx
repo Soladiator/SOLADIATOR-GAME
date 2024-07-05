@@ -7,15 +7,9 @@ import WalletConnectButton from '@/components/WalletConnectButton'
 
 const Page = () => {
   return (
-    <motion.div
-      className="fixed inset-0 z-[100] flex h-full w-full flex-col items-center justify-center gap-[6px] bg-dark-brown p-[20px] backdrop-blur-md"
-      initial={{ opacity: 1, scale: 1 }}
-      animate={{ opacity: 1, scale: 1, transition: { duration: 0.5 } }}
-      transition={{ duration: 1, delay: 0.5 }}
-      exit={{ opacity: 0 }}
-    >
+    <div className=" bg-dark-brown px-5 py-10 h-screen w-full ">
       <div
-        className={`relative flex h-screen w-full flex-col items-center justify-start overflow-hidden rounded-xl border border-white border-opacity-40 bg-[#2d2d2d9c] bg-opacity-40 bg-logged-out text-white backdrop-blur-xl`}
+        className={`relative flex flex-col items-center h-full w-full justify-start overflow-hidden rounded-xl border border-white border-opacity-40 bg-[#2d2d2d9c] bg-opacity-40 bg-logged-out text-white backdrop-blur-xl`}
       >
         <div
           className={`flex w-full flex-row items-center justify-between px-10 py-5 z-50`}
@@ -55,22 +49,14 @@ const Page = () => {
             </Link>
           </div>
         </div>
-        <div
-          className={`relative flex flex-col items-center justify-start gap-4`}
-        >
+        <div className={`flex flex-col items-center justify-start gap-4 z-10`}>
           <h1 className={`text-8xl font-bold text-center`}>
             Enter the world of <br /> Soladiators!
           </h1>
-          <div
-            className={`relative mt-4 flex flex-col items-center justify-center gap-6 md:flex-row`}
-          >
-            <div className="relative flex flex-col items-center justify-center gap-2">
-              <WalletConnectButton />
-            </div>
-          </div>
+          <WalletConnectButton />
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
