@@ -29,7 +29,7 @@ export const createMonster = async ({
   name,
   statDistribution,
   difficulty,
-  battleZoneName,
+  battleZoneId,
 }: MonsterCreateInput) => {
   const startMaxHealth = getStatCorrespondingValue(
     StatType.VIT,
@@ -57,7 +57,7 @@ export const createMonster = async ({
       difficulty,
       battleZone: {
         connect: {
-          name: battleZoneName,
+          id: battleZoneId,
         },
       },
     },

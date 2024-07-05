@@ -136,8 +136,8 @@ model Monster {
   difficulty Difficulty
 
   monsterGladiatorStats MonsterGladiatorStat[]
-  battleZone            BattleZone             @relation(fields: [battleZoneName], references: [name])
-  battleZoneName        String
+  battleZone            BattleZone             @relation(fields: [battleZoneId], references: [id])
+  battleZoneId          Int
 
   MonsterBonus MonsterBonus[]
 
@@ -170,7 +170,8 @@ model MonsterBonus {
 }
 
 model BattleZone {
-  name String @id
+  id   Int    @id @default(autoincrement())
+  name String
 
   //Monsters belonging to the zone
   monsters Monster[]
