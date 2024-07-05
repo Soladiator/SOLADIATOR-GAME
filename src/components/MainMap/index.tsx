@@ -65,7 +65,11 @@ const MainMap = () => {
     <div
       className="overflow-scroll no-scrollbar max-h-screen"
       ref={parentRef}
-      {...events}
+      onMouseDown={(e) => {
+        if (!area) {
+          events.onMouseDown(e);
+        }
+      }}
     >
       {isLoading && (
         <div
