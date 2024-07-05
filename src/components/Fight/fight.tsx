@@ -54,7 +54,7 @@ const Fight = ({ monster, onClose }: { monster: any; onClose: any }) => {
         </div>
         <div className=' my-4 border-t p-4'>
             <h2 className='uppercase text-xl border-b w-min flex mx-auto p-1 mb-4'>Earnings</h2>
-            <p className='text-green-500'>wet pussy</p>
+            <p className='text-green-500'>RESPECT</p>
         </div>
         <button onClick={onClose} className="fixed top-4 right-4">
         <Image
