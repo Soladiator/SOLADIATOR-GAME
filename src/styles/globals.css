@@ -37,21 +37,24 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 @font-face {
-  font-family: "akira-light";
-  src: url("/fonts/Kingthings-Petrock-light.ttf") format("opentype");
+  font-family: 'akira-light';
+  src: url('/fonts/Kingthings-Petrock-light.ttf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "akira";
-  src: url("/fonts/Kingthings-Petrock.ttf") format("opentype");
+  font-family: 'akira';
+  src: url('/fonts/Kingthings-Petrock.ttf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
 
 body {
-  font-family: "akira-light", sans-serif;
+  font-family: 'akira-light', sans-serif;
+  background: url(/images/main-map.webp) center top no-repeat;
+  background-size: cover;
+  backdrop-filter: blur(10px);
 }
 
 .glass {
@@ -62,7 +65,7 @@ body {
 
 .glass-border::before {
   pointer-events: none;
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -72,7 +75,9 @@ body {
   border: 1px solid transparent;
   background: linear-gradient(-15deg, transparent, rgba(255, 255, 255, 0.35))
     border-box;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
 }
@@ -88,7 +93,7 @@ body {
 }
 
 .background-text {
-  background-image: url("/images/background-text.png");
+  background-image: url('/images/background-text.png');
   -o-background-size: cover;
   -moz-background-size: cover;
   -webkit-background-size: cover;
@@ -108,7 +113,7 @@ body {
 
 .dot-flashing::before,
 .dot-flashing::after {
-  content: "";
+  content: '';
   display: inline-block;
   position: absolute;
   top: 0;
@@ -183,7 +188,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
@@ -225,7 +230,7 @@ input[type="number"] {
 }
 
 .label-content::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: -5px; /* Adjust as needed */
   left: 50%;
@@ -245,4 +250,42 @@ input[type="number"] {
   50% {
     transform: translate(-50%, -100%) translateY(-10px);
   }
+}
+
+.wallet-adapter-button-trigger {
+  all: unset !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1rem !important;
+  letter-spacing: 0em !important;
+  line-height: 1.5rem !important;
+}
+
+.bg-logged-out {
+  background: url(/images/banner.webp) center top no-repeat;
+  background-size: cover;
+}
+
+.bg-logged-out:before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.6) 100%,
+    rgba(0, 0, 0, 0) 0%
+  );
+  @apply rounded-xl;
+}
+
+.text-with-dark-bg {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  display: inline-block;
+  padding: 10px 30px;
 }
