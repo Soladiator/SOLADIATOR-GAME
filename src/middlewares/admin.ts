@@ -8,7 +8,3 @@ export function adminMiddleware(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 }
-
-export const config = {
-  matcher: '/api/admin/*',
-}
