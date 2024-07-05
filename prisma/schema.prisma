@@ -136,7 +136,7 @@ model Monster {
   difficulty Difficulty
 
   monsterGladiatorStats MonsterGladiatorStat[]
-  BattleZone            BattleZone             @relation(fields: [battleZoneName], references: [name])
+  battleZone            BattleZone             @relation(fields: [battleZoneName], references: [name])
   battleZoneName        String
 
   MonsterBonus MonsterBonus[]
