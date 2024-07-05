@@ -1,10 +1,9 @@
 import {getWeapon} from "../src/helpers/items";
-import {Item, ItemType} from "@prisma/client";
+import {Gender, Item, ItemType} from "@prisma/client";
 import {createItem, deleteItem} from "@/services/item.service";
 import {ItemCreateInput} from "@/types/items";
 import {deleteUser, getUserByWallet} from "@/services/user.service";
-import {use} from "react";
-import exp from "constants";
+import {createGladiator} from "@/services/gladiator.service";
 
 describe("getWeapon", () => {
   it("Should return a weapon with computed attributes", () => {
@@ -19,6 +18,7 @@ describe("getWeapon", () => {
         {name: "damage", value: "10-20"},
         {name: "bonus", value: "damage:5"},
       ],
+      imgURL: null,
     };
 
     const result = getWeapon(mockItem);
@@ -40,6 +40,7 @@ describe("getWeapon", () => {
       ownerWallet: "testWallet",
       createdAt: new Date(),
       attributes: [],
+      imgURL: null,
     };
 
     expect(() => getWeapon(mockItem)).toThrowError("Item is not a Weapon");
@@ -54,6 +55,7 @@ describe("getWeapon", () => {
       ownerWallet: "testWallet",
       createdAt: new Date(),
       attributes: [],
+      imgURL: null,
     };
 
     expect(() => getWeapon(mockItem)).toThrowError(
