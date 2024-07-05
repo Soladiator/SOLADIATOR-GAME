@@ -43,20 +43,20 @@ const StatsForm: React.FC = () => {
   };
 
   return (
-    <div className='mx-auto text-2xl w-[60%] bg-black text-white border-yellow-950 border  p-3 bg-opacity-20'>
+    <div className='mx-auto text-2xl w-full bg-black text-white  border  p-3 bg-opacity-20'>
        {totalPoints - usedPoints > 0 ? (
             <p className='text-center text-xl'>Points available: {totalPoints - usedPoints}</p>
        ): (<div className='h-8'></div>)}
 
       <div>
         {Object.keys(stats).map((stat) => (
-          <div className='grid grid-cols-5 my-1' key={stat}>
+          <div className='flex justify-between md:px-16 md:py-1 w-full my-1' key={stat}>
             <label>{stat} </label>
             <div className='text-start'>:</div>
-            <div className=' col-span-3 justify-end grid grid-cols-3 gap-12 text-center'>
-                <button className='bg-white  hover:bg-opacity-20 text-yellow-950 w-[40px] py-0 rounded-full' onClick={() => handleDecrement(stat as StatKeys)}>-</button>
+            <div className=' col-span-3  flex justify-between gap-12 text-center'>
+                <button style={{backgroundImage: 'url("/icons/decrement.png")', backgroundSize: 'cover'}} className='  hover:bg-opacity-20 text-yellow-950 w-[35px] h-[32px] hover:opacity-70 py-0 rounded-full' onClick={() => handleDecrement(stat as StatKeys)}></button>
                 <span className='text-center'>{stats[stat as StatKeys]}</span>
-                <button className=' bg-white hover:bg-opacity-20 text-yellow-950 w-[40px] text-center items-center py-0 rounded-full' onClick={() => handleIncrement(stat as StatKeys)}>+</button>
+                <button style={{backgroundImage: 'url("/icons/increment.png")', backgroundSize: 'cover'}} className='  hover:bg-opacity-20 text-yellow-950 w-[35px] h-[32px] hover:opacity-70 py-0 rounded-full' onClick={() => handleIncrement(stat as StatKeys)}>+</button>
             </div>
           </div>
         ))}

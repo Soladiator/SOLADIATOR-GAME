@@ -25,10 +25,10 @@ const Stash: React.FC<StashProps> = ({ items, onDrop }) => {
   }, [drop]);
 
   return (
-    <div ref={ref} className="grid overflow-auto h-[25vh] grid-cols-8 gap-2 p-4 border bg-black bg-opacity-50 border-gray-400">
+    <div ref={ref} className="grid overflow-auto min-h-[25vh] grid-cols-8 gap-2 p-4 border bg-black bg-opacity-50 border-gray-400">
       <div className="col-span-8 text-center text-white text-3xl">Stash</div>
       {items.map((item) => (
-        <div key={item.id} className="border border-gray-300 h-20 flex items-center justify-center">
+        <div key={item.id} className="border border-gray-300 h-24 flex items-center justify-center">
           <Item item={item} />
         </div>
       ))}

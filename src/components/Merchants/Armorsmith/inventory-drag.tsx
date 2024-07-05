@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Stash from '../stash-merchant';
-import Blacksmith from './blacksmith';
+import Armorsmith from './armorsmith';
 import { ItemType } from '@/types/itemtypes';
 
-const BlacksmithDrag = () => {
+const InventoryDrag = () => {
   const [mode, setMode] = useState<'buy' | 'sell'>('buy');
 
-  const [blacksmithInventory, setBlacksmithInventory] = useState<ItemType[]>([
+  const [armorsmithInventory, setArmorsmithInventory] = useState<ItemType[]>([
     { id: 1, name: 'Sword', itemType: 'weapon', minLevel: 1, attributes: [] },
     { id: 2, name: 'Shield', itemType: 'shield', minLevel: 1, attributes: [] },
     { id: 3, name: 'Helmet', itemType: 'helmet', minLevel: 1, attributes: [] },
@@ -28,16 +28,16 @@ const BlacksmithDrag = () => {
     // Add more items as needed
   ]);
 
-  const handleBlacksmithDrop = (item: ItemType) => {
+  const handleArmorsmithDrop = (item: ItemType) => {
     if (mode === 'sell') {
       setStash((prevStash) => prevStash.filter((i) => i.id !== item.id));
-      setBlacksmithInventory((prevInventory) => [...prevInventory, item]);
+      setArmorsmithInventory((prevInventory) => [...prevInventory, item]);
     }
   };
 
   const handleStashDrop = (item: ItemType) => {
     if (mode === 'buy') {
-      setBlacksmithInventory((prevInventory) => prevInventory.filter((i) => i.id !== item.id));
+      setArmorsmithInventory((prevInventory) => prevInventory.filter((i) => i.id !== item.id));
       setStash((prevStash) => [...prevStash, item]);
     }
   };
@@ -48,8 +48,7 @@ const BlacksmithDrag = () => {
         
         <div className="grid grid-cols-2 min-h-[200px] gap-4">
           <div className=''>
-           
-            <Blacksmith items={blacksmithInventory} onDrop={handleBlacksmithDrop} mode={mode} />
+            <Armorsmith items={armorsmithInventory} onDrop={handleArmorsmithDrop} mode={mode} />
           </div>
           <Stash items={stash} onDrop={handleStashDrop} mode={mode} />
         </div>
@@ -62,4 +61,4 @@ const BlacksmithDrag = () => {
   );
 };
 
-export default BlacksmithDrag;
+export default InventoryDrag;

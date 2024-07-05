@@ -1,5 +1,7 @@
 import MonstersModal from "@/components/Fight/monsters-modal";
+import ArmorsmithDrag from "@/components/Merchants/Armorsmith/inventory-drag";
 import BlacksmithDrag from "@/components/Merchants/Blacksmith/inventory-drag";
+import Herbalist from "@/components/Merchants/Herbalist/herbalist";
 import InventoryDrag from "@/components/stats/inventory-drag";
 
 export const URL = "/images/main-map.webp";
@@ -34,13 +36,17 @@ export const MAP: MapType = {
       fillColor: "rgba(216, 152, 83, 0.35)",
       strokeColor: "#D89853",
       coords: [
-        1096, 349, 1113, 352, 1144, 359, 1169, 369, 1186, 377, 1209, 405, 1209,
-        427, 1209, 485, 1184, 525, 1139, 543, 1098, 545, 1053, 545, 1013, 543,
-        957, 523, 937, 503, 930, 483, 930, 442, 932, 410, 955, 384, 985, 367,
-        1020, 357, 1063, 352,
+        952, 327, 966, 344, 1009, 324, 987, 294, 1014, 279, 1014, 186, 873, 118,
+        826, 98, 778, 171, 785, 173, 785, 196, 765, 191, 722, 244, 732, 251,
+        732, 276, 715, 289, 712, 311, 737, 327, 760, 324, 768, 337, 801, 352,
+        814, 337, 824, 342, 824, 342, 837, 349, 859, 357, 884, 339, 884, 311,
+        900, 319, 920, 327, 945, 314,
       ],
+
       labelPercentages: [50, 11],
-      content: "arena"
+      content: <div className=" uppercase text-5xl">
+        coming soon
+      </div>
     },
     {
       id: 2,
@@ -65,11 +71,15 @@ export const MAP: MapType = {
       fillColor: "rgba(216, 152, 83, 0.35)",
       strokeColor: "#D89853",
       coords: [
-        492, 558, 492, 475, 499, 462, 462, 400, 424, 407, 379, 430, 379, 387,
-        363, 382, 346, 389, 348, 442, 316, 462, 283, 480, 290, 488, 290, 515,
-        293, 543, 278, 556, 288, 563, 290, 598, 358, 628, 439, 586, 472, 568,
+        1096, 349, 1113, 352, 1144, 359, 1169, 369, 1186, 377, 1209, 405, 1209,
+        427, 1209, 485, 1184, 525, 1139, 543, 1098, 545, 1053, 545, 1013, 543,
+        957, 523, 937, 503, 930, 483, 930, 442, 932, 410, 955, 384, 985, 367,
+        1020, 357, 1063, 352,
       ],
       labelPercentages: [60, 40],
+      content: <div className=" uppercase text-5xl">
+      coming soon
+    </div>
     },
     {
       id: 4,
@@ -84,6 +94,7 @@ export const MAP: MapType = {
         1267, 884,
       ],
       labelPercentages: [76, 72],
+      content: <ArmorsmithDrag/>
     },
     {
       id: 5,
@@ -92,14 +103,14 @@ export const MAP: MapType = {
       name: "Herbalist",
       fillColor: "rgba(216, 152, 83, 0.35)",
       strokeColor: "#D89853",
+
       coords: [
-        952, 327, 966, 344, 1009, 324, 987, 294, 1014, 279, 1014, 186, 873, 118,
-        826, 98, 778, 171, 785, 173, 785, 196, 765, 191, 722, 244, 732, 251,
-        732, 276, 715, 289, 712, 311, 737, 327, 760, 324, 768, 337, 801, 352,
-        814, 337, 824, 342, 824, 342, 837, 349, 859, 357, 884, 339, 884, 311,
-        900, 319, 920, 327, 945, 314,
+        492, 558, 492, 475, 499, 462, 462, 400, 424, 407, 379, 430, 379, 387,
+        363, 382, 346, 389, 348, 442, 316, 462, 283, 480, 290, 488, 290, 515,
+        293, 543, 278, 556, 288, 563, 290, 598, 358, 628, 439, 586, 472, 568,
       ],
       labelPercentages: [23, 40],
+      content: <Herbalist/>
     },
     {
       id: 6,

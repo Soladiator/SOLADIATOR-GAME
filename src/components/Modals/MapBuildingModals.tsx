@@ -61,9 +61,9 @@ const MapBuildingModal = ({
             >
               <DialogPanel className="w-full transform h-full transition-all">
                 <div className="px-5 py-3 rounded-[20px] relative text-white h-full">
-                  <DialogTitle className="text-base font-bold py-2 leading-[21.6px] text-center text-primary mb-2">
+                  {/* <DialogTitle className="text-base font-bold py-2 leading-[21.6px] text-center text-primary mb-2">
                     {selectedArea.title}
-                  </DialogTitle>
+                  </DialogTitle> */}
                   <DialogContent>{selectedArea.content}</DialogContent>
                 </div>
               </DialogPanel>
