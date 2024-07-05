@@ -1,27 +1,41 @@
-import {DEFAULTS} from "@/helpers/constants";
-import {getStatCorrespondingValue} from "@/helpers/stats";
-import db from "@/lib/db";
-import {GladiatorCreateInput, ItemFieldType} from "@/types/gladiator";
-import {StatType} from "@prisma/client";
+import { DEFAULTS } from '@/helpers/constants'
+import { getStatCorrespondingValue } from '@/helpers/stats'
+import db from '@/lib/db'
+import { GladiatorCreateInput, ItemFieldType } from '@/types/gladiator'
+import { StatType } from '@prisma/client'
 
 /**
  *
- * @param publicKey
- * @returns
+ * @param publicKey of the user
+ * @returns Gladiator along with Character, Character Stats, Equipped Items and Monster stats
  */
 export const getGladiatorByWallet = async (publicKey: string) => {
   const gladiator = await db.gladiator.findFirst({
     where: {
       ownerWallet: publicKey,
     },
-  });
+    include: {
+      character: {
+        include: {
+          characterStat: {
+            select: {
+              statType: true,
+              value: true,
+            },
+          },
+        },
+      },
+      monsterGladiatorStats: true,
+      equippedItems: true,
+    },
+  })
 
   if (!gladiator) {
-    throw new Error("Gladiator not found");
+    throw new Error('Gladiator not found')
   }
 
-  return gladiator;
-};
+  return gladiator
+}
 
 /**
  * Creates a new gladiator.
@@ -44,19 +58,19 @@ export const createGladiator = async ({
   const sum = Object.values(statDistribution).reduce(
     (acc, curr) => acc + curr,
     0,
-  );
+  )
 
   if (sum !== DEFAULTS.BASE_STAT_COUNT + DEFAULTS.AVAILABLE_STAT_PER_LEVEL) {
     throw new Error(
-      "Stat distribution must sum to " +
+      'Stat distribution must sum to ' +
         (DEFAULTS.BASE_STAT_COUNT + DEFAULTS.AVAILABLE_STAT_PER_LEVEL),
-    );
+    )
   }
 
   const startMaxHealth = getStatCorrespondingValue(
     StatType.VIT,
     statDistribution.VIT,
-  );
+  )
 
   const gladiator = await db.gladiator.create({
     data: {
@@ -97,10 +111,10 @@ export const createGladiator = async ({
       },
       monsterGladiatorStats: true,
     },
-  });
+  })
 
-  return gladiator;
-};
+  return gladiator
+}
 
 /**
  * Equips an item to a gladiator.
@@ -115,61 +129,61 @@ export const equipItemToGladiator = async ({
   gladiatorId,
   itemId,
 }: {
-  gladiatorId: number;
-  itemId: number;
+  gladiatorId: number
+  itemId: number
 }) => {
   //Check if item exists
   const item = await db.item.findUnique({
-    where: {id: itemId},
-  });
+    where: { id: itemId },
+  })
 
   if (!item) {
-    throw new Error("Item not found");
+    throw new Error('Item not found')
   }
 
   //Check if gladiator exists
   const gladiator = await db.gladiator.findUnique({
-    where: {id: gladiatorId},
+    where: { id: gladiatorId },
     include: {
       character: true,
     },
-  });
+  })
 
   if (!gladiator) {
-    throw new Error("Gladiator not found");
+    throw new Error('Gladiator not found')
   }
 
   //Check if gladiator level meets item minLevel requirement
   if (gladiator.character.level < item.minLevel) {
-    throw new Error("Gladiator level is too low to equip this item");
+    throw new Error('Gladiator level is too low to equip this item')
   }
 
   let equippedItems = await db.equippedItems.findUnique({
-    where: {gladiatorId: gladiatorId},
-  });
+    where: { gladiatorId: gladiatorId },
+  })
 
   // If the gladiator doesn't have any equipped items yet, create a new record
   if (!equippedItems) {
     equippedItems = await db.equippedItems.create({
-      data: {gladiatorId: gladiatorId},
-    });
+      data: { gladiatorId: gladiatorId },
+    })
   }
 
   // Now, equip the item to the gladiator based on its type
-  const itemField = (item.itemType.toLowerCase() + "Id") as ItemFieldType;
-  equippedItems[itemField] = itemId;
+  const itemField = (item.itemType.toLowerCase() + 'Id') as ItemFieldType
+  equippedItems[itemField] = itemId
 
   // Finally, update the equipped items for the gladiator
   equippedItems = await db.equippedItems.update({
-    where: {id: equippedItems.id},
+    where: { id: equippedItems.id },
     data: equippedItems,
     include: {
       [item.itemType.toLowerCase()]: true,
     },
-  });
+  })
 
-  return equippedItems;
-};
+  return equippedItems
+}
 
 /**
  * Unequips an item to a gladiator.
@@ -184,92 +198,92 @@ export const unequipItemToGladiator = async ({
   gladiatorId,
   itemId,
 }: {
-  gladiatorId: number;
-  itemId: number;
+  gladiatorId: number
+  itemId: number
 }) => {
   //Check if item exists
   const item = await db.item.findUnique({
-    where: {id: itemId},
-  });
+    where: { id: itemId },
+  })
 
   if (!item) {
-    throw new Error("Item not found");
+    throw new Error('Item not found')
   }
 
   //Check if gladiator exists
   const gladiator = await db.gladiator.findUnique({
-    where: {id: gladiatorId},
+    where: { id: gladiatorId },
     include: {
       character: true,
       equippedItems: true,
     },
-  });
+  })
 
   if (!gladiator) {
-    throw new Error("Gladiator not found");
+    throw new Error('Gladiator not found')
   } else if (!gladiator.equippedItems) {
-    throw new Error("Item is not equipped to the gladiator");
+    throw new Error('Item is not equipped to the gladiator')
   }
 
   //Check if gladiator level meets item minLevel requirement
   if (gladiator.character.level < item.minLevel) {
-    throw new Error("Gladiator level is too low to equip this item");
+    throw new Error('Gladiator level is too low to equip this item')
   }
 
-  const itemField = (item.itemType.toLowerCase() + "Id") as ItemFieldType;
+  const itemField = (item.itemType.toLowerCase() + 'Id') as ItemFieldType
 
   //Check if item is equipped to the gladiator
-  const equippedItemId = gladiator.equippedItems[itemField];
+  const equippedItemId = gladiator.equippedItems[itemField]
 
   // If the gladiator doesn't have any equipped items yet, create a new record
   if (!equippedItemId || equippedItemId !== itemId) {
-    throw new Error("Item is not equipped to the gladiator");
+    throw new Error('Item is not equipped to the gladiator')
   }
 
-  gladiator.equippedItems[itemField] = null;
+  gladiator.equippedItems[itemField] = null
 
   // Update the equipped items for the gladiator
   const updatedEquippedItems = await db.equippedItems.update({
-    where: {id: gladiator.equippedItems.id},
+    where: { id: gladiator.equippedItems.id },
     data: gladiator.equippedItems,
     include: {
       [item.itemType.toLowerCase()]: true,
     },
-  });
+  })
 
-  return updatedEquippedItems;
-};
+  return updatedEquippedItems
+}
 
 export const deleteGladiator = async (gladiatorId: number) => {
   // Get the gladiator's characterId
   const gladiator = await db.gladiator.findUnique({
-    where: {id: gladiatorId},
-    select: {characterId: true},
-  });
+    where: { id: gladiatorId },
+    select: { characterId: true },
+  })
 
   if (!gladiator) {
-    throw new Error("Gladiator not found");
+    throw new Error('Gladiator not found')
   }
 
   // Delete the equipped items associated with the gladiator
   const deleteEquippedItems = db.equippedItems.deleteMany({
-    where: {gladiatorId: gladiatorId},
-  });
+    where: { gladiatorId: gladiatorId },
+  })
 
   // Delete the gladiator
   const deleteGladiator = db.gladiator.delete({
-    where: {id: gladiatorId},
-  });
+    where: { id: gladiatorId },
+  })
 
   // Delete the character stats associated with the gladiator's character
   const deleteCharacterStats = db.characterStat.deleteMany({
-    where: {characterId: gladiator.characterId},
-  });
+    where: { characterId: gladiator.characterId },
+  })
 
   // Delete the character associated with the gladiator
   const deleteCharacter = db.character.delete({
-    where: {id: gladiator.characterId},
-  });
+    where: { id: gladiator.characterId },
+  })
 
   // Perform all operations in a single transaction
   const [_, __, ___, deletedGladiator] = await db.$transaction([
@@ -277,7 +291,7 @@ export const deleteGladiator = async (gladiatorId: number) => {
     deleteGladiator,
     deleteCharacterStats,
     deleteCharacter,
-  ]);
+  ])
 
-  return deletedGladiator;
-};
+  return deletedGladiator
+}
