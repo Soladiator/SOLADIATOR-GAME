@@ -1,7 +1,9 @@
 import MonstersModal from "@/components/Fight/monsters-modal";
+import BlacksmithDrag from "@/components/Merchants/Blacksmith/inventory-drag";
 import InventoryDrag from "@/components/stats/inventory-drag";
 
 export const URL = "/images/main-map.webp";
+
 
 export interface Area {
   id: number;
@@ -11,8 +13,10 @@ export interface Area {
   fillColor: string;
   strokeColor: string;
   coords: number[];
+  labelPercentages: [number, number];
   content?: React.ReactNode;
 }
+
 
 export interface MapType {
   name: string;
@@ -24,7 +28,7 @@ export const MAP: MapType = {
   areas: [
     {
       id: 1,
-      title: "1",
+      title: "Auction House",
       shape: "poly",
       name: "1",
       fillColor: "rgba(216, 152, 83, 0.35)",
@@ -35,13 +39,14 @@ export const MAP: MapType = {
         957, 523, 937, 503, 930, 483, 930, 442, 932, 410, 955, 384, 985, 367,
         1020, 357, 1063, 352,
       ],
+      labelPercentages: [50, 11],
       content: "arena"
     },
     {
       id: 2,
-      title: "2",
+      title: "Player's House",
       shape: "poly",
-      name: "2",
+      name: "Player's House",
       fillColor: "rgba(216, 152, 83, 0.35)",
       strokeColor: "#D89853",
       coords: [
@@ -49,13 +54,14 @@ export const MAP: MapType = {
         754, 628, 751, 664, 754, 706, 746, 719, 754, 727, 754, 764, 733, 782,
         779, 812, 804, 790, 819, 797, 847, 774,
       ],
-      content: "Some content for the second area",
+      labelPercentages: [49, 56],
+      content: <InventoryDrag/>
     },
     {
       id: 3,
-      title: "3",
+      title: "Arena",
       shape: "poly",
-      name: "3",
+      name: "Arena",
       fillColor: "rgba(216, 152, 83, 0.35)",
       strokeColor: "#D89853",
       coords: [
@@ -63,12 +69,13 @@ export const MAP: MapType = {
         363, 382, 346, 389, 348, 442, 316, 462, 283, 480, 290, 488, 290, 515,
         293, 543, 278, 556, 288, 563, 290, 598, 358, 628, 439, 586, 472, 568,
       ],
+      labelPercentages: [60, 40],
     },
     {
       id: 4,
-      title: "4",
+      title: "Armorsmith",
       shape: "poly",
-      name: "4",
+      name: "Armorsmith",
       fillColor: "rgba(216, 152, 83, 0.35)",
       strokeColor: "#D89853",
       coords: [
@@ -76,12 +83,13 @@ export const MAP: MapType = {
         733, 1370, 740, 1277, 791, 1282, 796, 1280, 831, 1267, 846, 1275, 858,
         1267, 884,
       ],
+      labelPercentages: [76, 72],
     },
     {
       id: 5,
-      title: "5",
+      title: "Herbalist",
       shape: "poly",
-      name: "5",
+      name: "Herbalist",
       fillColor: "rgba(216, 152, 83, 0.35)",
       strokeColor: "#D89853",
       coords: [
@@ -91,12 +99,13 @@ export const MAP: MapType = {
         814, 337, 824, 342, 824, 342, 837, 349, 859, 357, 884, 339, 884, 311,
         900, 319, 920, 327, 945, 314,
       ],
+      labelPercentages: [23, 40],
     },
     {
       id: 6,
-      title: "Stash",
+      title: "Blacksmith",
       shape: "poly",
-      name: "6",
+      name: "Blacksmith",
       fillColor: "rgba(216, 152, 83, 0.35)",
       strokeColor: "#D89853",
       coords: [
@@ -105,13 +114,14 @@ export const MAP: MapType = {
         1227, 578, 1239, 588, 1242, 610, 1214, 595, 1184, 605, 1181, 643, 1307,
         701, 1330, 683, 1350, 698, 1375, 686,
       ],
-      content: <InventoryDrag/>
+      labelPercentages: [73, 51],
+      content: <BlacksmithDrag/>
     },
     {
       id: 7,
-      title: "Fight",
+      title: "Dark Forest",
       shape: "poly",
-      name: "7",
+      name: "Dark Forest",
       fillColor: "rgba(0,0,0,0.2)",
       strokeColor: "transparent",
       coords: [
@@ -126,6 +136,7 @@ export const MAP: MapType = {
         112, 428, 114, 440, 92, 450, 82, 443, 66, 448, 71, 460, 1, 491, -2, 455,
         1, 405, 1, 204, 1, 86, 1, 38,
       ],
+      labelPercentages: [18, 18],
       content: <MonstersModal/>
     },
   ],

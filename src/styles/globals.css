@@ -178,7 +178,7 @@ input[type="number"] {
   position: absolute;
   transform: translate(-50%, -100%);
   pointer-events: none;
-  z-index: 20;
+  z-index: 10;
   animation: smooth-bounce 2s infinite;
 }
 
