@@ -65,7 +65,7 @@ const handler = NextAuth({
     strategy: 'jwt',
   },
   pages: {
-    signIn: '/',
+    signIn: '/login',
     signOut: '/',
     error: '/', // Error code passed in query string as ?error=
     verifyRequest: '/', // (used for check email message)
