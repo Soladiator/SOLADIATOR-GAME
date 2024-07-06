@@ -53,14 +53,6 @@ const MainMap = () => {
     }
   }, [innerWidth, isLoading])
 
-  const handleAreaMouseEnter = () => {
-    document.body.style.cursor = 'pointer'
-  }
-
-  const handleAreaMouseLeave = () => {
-    document.body.style.cursor = 'default'
-  }
-
   return (
     <div
       className="overflow-scroll no-scrollbar max-h-screen"
@@ -106,8 +98,6 @@ const MainMap = () => {
           onClick={(areaDetails) => {
             setArea(areaDetails)
           }}
-          onMouseEnter={handleAreaMouseEnter}
-          onMouseLeave={handleAreaMouseLeave}
           onLoad={() => setIsLoading(false)}
         />
         {!isLoading &&
