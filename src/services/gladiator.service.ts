@@ -2,6 +2,7 @@ import { DEFAULTS } from '@/helpers/constants'
 import { getStatCorrespondingValue } from '@/helpers/stats'
 import db from '@/lib/db'
 import { GladiatorCreateInput, ItemFieldType } from '@/types/gladiator'
+import { CharacterStats } from '@/types/stats'
 import { StatType } from '@prisma/client'
 
 /**
@@ -183,6 +184,109 @@ export const equipItemToGladiator = async ({
   })
 
   return equippedItems
+}
+
+/**
+ * Updates the stats of a gladiator.
+ *
+ * @param {Object} params - The function parameters.
+ * @param {number} params.gladiatorId - The ID of the gladiator to update.
+ * @param {CharacterStats} params.newStats - The new stats for the gladiator's character.
+ * @returns {Promise<Gladiator>} The updated gladiator.
+ * @throws {Error} If the gladiator is not found.
+ * @throws {Error} If any of the new stats are less than the existing stats.
+ * @throws {Error} If the sum of the new stats is greater than the gladiator's available stat points.
+ */
+export const updateGladiatorStats = async ({
+  gladiatorId,
+  newStats,
+}: {
+  gladiatorId: number
+  newStats: CharacterStats
+}) => {
+  const gladiator = await db.gladiator.findUnique({
+    where: { id: gladiatorId },
+    include: {
+      character: {
+        include: {
+          characterStat: {
+            select: {
+              statType: true,
+              value: true,
+            },
+          },
+        },
+      },
+    },
+  })
+
+  if (!gladiator) {
+    throw new Error('Gladiator not found')
+  }
+
+  const existingStats = gladiator.character.characterStat.reduce(
+    (acc, stat) => {
+      acc[stat.statType] = stat.value
+      return acc
+    },
+    {} as CharacterStats,
+  )
+
+  //Check that existing stats have not been decreased
+  for (const [statType, value] of Object.entries(newStats)) {
+    if (value < existingStats[statType as StatType]) {
+      throw new Error('Stats cannot be decreased')
+    }
+  }
+
+  //Calculate the difference between the new stats sum and existing stats sum
+  const diff =
+    Object.values(newStats).reduce((acc, curr) => acc + curr, 0) -
+    Object.values(existingStats).reduce((acc, curr) => acc + curr, 0)
+
+  //Check that the difference is not greater than the available stat points
+  if (diff > gladiator.character.availableStatPoints) {
+    throw new Error('Not enough available stat points')
+  }
+
+  const updates = await db.$transaction([
+    db.gladiator.update({
+      where: { id: gladiatorId },
+      data: {
+        character: {
+          update: {
+            availableStatPoints: {
+              decrement: diff,
+            },
+          },
+        },
+      },
+      include: {
+        character: {
+          include: {
+            characterStat: true,
+          },
+        },
+        monsterGladiatorStats: true,
+        equippedItems: true,
+      },
+    }),
+    ...Object.entries(newStats).map(([statType, value]) => {
+      return db.characterStat.update({
+        where: {
+          characterId_statType: {
+            characterId: gladiator.characterId,
+            statType: statType as StatType,
+          },
+        },
+        data: { value },
+      })
+    }),
+  ])
+
+  const updatedGladiator = updates[0]
+
+  return updatedGladiator
 }
 
 /**
